@@ -2,10 +2,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET 
+  ? new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID!,
+      key_secret: process.env.RAZORPAY_KEY_SECRET!,
+    })
+  : null;
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -23,6 +25,13 @@ export async function POST(req: NextRequest) {
   console.log('Razorpay API: Options for order creation:', options);
 
   try {
+    if (!razorpay) {
+      return NextResponse.json({ 
+        error: 'Payment Gateway Not Configured',
+        message: 'Razorpay keys are not properly configured. Please contact support.'
+      }, { status: 500 });
+    }
+    
     const order = await razorpay.orders.create(options);
     console.log('Razorpay API: Order created successfully:', order);
     return NextResponse.json({ order });

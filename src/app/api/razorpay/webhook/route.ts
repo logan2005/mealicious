@@ -3,14 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { db as prisma } from '@/lib/db';
 
-export const config = {
-  api: {
-    bodyParser: false, // To allow raw body parsing
-  },
-  experimental: {
-    serverComponentsExternalPackages: true,
-  },
-};
+export const dynamic = 'force-dynamic';
 
 async function buffer(readable: ReadableStream<Uint8Array>) {
   const reader = readable.getReader();

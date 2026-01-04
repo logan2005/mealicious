@@ -87,6 +87,7 @@ export default function Footer() {
                 <Twitter className="w-5 h-5" />
               </Link>
             </div>
+          </div>
         </div>
 
         {/* Bottom Bar */}
