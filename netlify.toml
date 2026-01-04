@@ -4,15 +4,10 @@
   command = "npm run build"
   publish = ".next"
 
-[[plugins]]
+[plugins]
   package = "@netlify/plugin-nextjs"
 
 [build.environment]
   SECRETS_SCAN_OMIT_KEYS = "CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET,RAZORPAY_KEY_ID,NEXT_PUBLIC_RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET"
   RAZORPAY_KEY_ID = "rzp_live_R8M9WUsAYZ5pXp"
   NEXT_PUBLIC_RAZORPAY_KEY_ID = "rzp_live_R8M9WUsAYZ5pXp"
-
-  command = "npm run build"
-
-[plugins]
-  package = "@netlify/plugin-nextjs"
