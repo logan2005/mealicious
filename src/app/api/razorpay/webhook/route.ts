@@ -7,6 +7,9 @@ export const config = {
   api: {
     bodyParser: false, // To allow raw body parsing
   },
+  experimental: {
+    serverComponentsExternalPackages: true,
+  },
 };
 
 async function buffer(readable: ReadableStream<Uint8Array>) {
