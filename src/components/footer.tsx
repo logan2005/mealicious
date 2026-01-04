@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center justify-center mb-6">
+            <div className="flex justify-center mb-6">
               <img 
                 src="https://res.cloudinary.com/dkjvfskhn/image/upload/v1767525819/mealicious_pnxrai.jpg" 
                 alt="Mealicious Logo" 
