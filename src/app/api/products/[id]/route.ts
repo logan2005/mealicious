@@ -3,9 +3,9 @@ import { db } from '@/lib/db'
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await params;
   try {
     const product = await db.product.findUnique({
       where: { id: id }
@@ -30,9 +30,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await params;
   try {
     const body = await request.json()
     const { name, description, price, category, imageUrl, images, ingredients, nutrition, featured, inStock } = body
@@ -65,9 +65,9 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
   try {
     await db.product.delete({
       where: { id: id }
