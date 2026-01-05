@@ -166,15 +166,7 @@ export default function Home() {
                     <Sparkles className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <Link href="/recipes">
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="border-2 border-white/30 text-white hover:bg-white/20 hover:text-white hover:border-white/50 px-8 py-4 text-lg font-semibold backdrop-blur-sm transform hover:scale-105 transition-all duration-300 shadow-lg"
-                  >
-                    View Recipes
-                  </Button>
-                </Link>
+
               </div>
             </div>
           </div>

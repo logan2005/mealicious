@@ -35,11 +35,7 @@ export default function Footer() {
                   Products
                 </Link>
               </li>
-              <li>
-                <Link href="/recipes" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  Recipes
-                </Link>
-              </li>
+
               <li>
                 <Link href="/about" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
                   About Us

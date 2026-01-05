@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge'
 import { 
   LayoutDashboard, 
   Package, 
-  BookOpen, 
   ShoppingCart, 
   Users, 
   LogOut,
@@ -25,7 +24,6 @@ import {
 
 interface DashboardStats {
   totalProducts: number
-  totalRecipes: number
   totalOrders: number
   totalUsers: number
   recentOrders: any[]
@@ -43,26 +41,16 @@ interface Product {
   imageUrl: string
 }
 
-interface Recipe {
-  id: string
-  title: string
-  description: string
-  difficulty: string
-  imageUrl: string
-}
-
 export default function AdminDashboard() {
   const router = useRouter()
   const [stats, setStats] = useState<DashboardStats>({
     totalProducts: 0,
-    totalRecipes: 0,
     totalOrders: 0,
     totalUsers: 0,
     recentOrders: [],
     lowStockProducts: []
   })
   const [products, setProducts] = useState<Product[]>([])
-  const [recipes, setRecipes] = useState<Recipe[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -82,14 +70,13 @@ export default function AdminDashboard() {
       const adminToken = localStorage.getItem('adminToken')
       
       // Fetch dashboard stats
-      const [statsRes, productsRes, recipesRes] = await Promise.all([
+      const [statsRes, productsRes] = await Promise.all([
         fetch('/api/admin/dashboard', {
           headers: { 'Authorization': `Bearer ${adminToken}` }
         }),
         fetch('/api/admin/products', {
           headers: { 'Authorization': `Bearer ${adminToken}` }
-        }),
-        fetch('/api/recipes')
+        })
       ])
 
       if (statsRes.ok) {
@@ -100,11 +87,6 @@ export default function AdminDashboard() {
       if (productsRes.ok) {
         const productsData = await productsRes.json()
         setProducts(productsData.products || [])
-      }
-
-      if (recipesRes.ok) {
-        const recipesData = await recipesRes.json()
-        setRecipes(recipesData)
       }
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
@@ -149,28 +131,7 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleDeleteRecipe = async (id: string, title: string) => {
-    if (window.confirm(`Are you sure you want to delete the recipe "${title}"?`)) {
-      try {
-        const adminToken = localStorage.getItem('adminToken')
-        const response = await fetch(`/api/recipes/${id}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${adminToken}` }
-        })
 
-        if (response.ok) {
-          setRecipes(recipes.filter(r => r.id !== id))
-          fetchDashboardData() // Re-fetch stats to update recipe count
-        } else {
-          const data = await response.json()
-          alert(`Failed to delete recipe: ${data.error || 'Unknown error'}`)
-        }
-      } catch (error) {
-        console.error('Error deleting recipe:', error)
-        alert('An error occurred while deleting the recipe.')
-      }
-    }
-  }
 
   if (loading) {
     return (
@@ -214,16 +175,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Recipes</CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.totalRecipes}</div>
-              <p className="text-xs text-muted-foreground">Available recipes</p>
-            </CardContent>
-          </Card>
+
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -250,11 +202,10 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="products">Products</TabsTrigger>
             <TabsTrigger value="combos">Combos</TabsTrigger>
-            <TabsTrigger value="recipes">Recipes</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="orders"><Link href="/admin/orders">Orders</Link></TabsTrigger>
             <TabsTrigger value="inventory">Inventory</TabsTrigger>
@@ -416,53 +367,7 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="recipes" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-2xl font-bold">Recipes Management</h2>
-                <p className="text-gray-600">Manage your recipe collection</p>
-              </div>
-              <Link href="/admin/recipes/new">
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Recipe
-                </Button>
-              </Link>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recipes.map((recipe) => (
-                <Card key={recipe.id} className="hover:shadow-lg transition-shadow">
-                  <CardContent className="p-4">
-                    <div className="aspect-square bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                      <img
-                        src={recipe.imageUrl}
-                        alt={recipe.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = 'https://via.placeholder.com/300x300?text=Recipe';
-                        }}
-                      />
-                    </div>
-                    <h3 className="font-semibold mb-2">{recipe.title}</h3>
-                    <p className="text-gray-600 text-sm mb-2">{recipe.difficulty}</p>
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                      {recipe.description}
-                    </p>
-                    <Button size="sm" variant="destructive" onClick={() => handleDeleteRecipe(recipe.id, recipe.title)}>
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                      <Link href={`/admin/recipes/${recipe.id}/edit`}>
-                        <Button size="sm" variant="outline" className="ml-2">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                      </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
 
           <TabsContent value="reviews" className="space-y-6">
             <div className="flex justify-between items-center">

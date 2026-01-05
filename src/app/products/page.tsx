@@ -120,30 +120,35 @@ export default function ProductsPage() {
 
   function ProductsLoading() {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-rose-50">
+        <div className="max-w-7xl mx-auto px-4 py-16">
+          {/* Filter Loading */}
+          <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-orange-100">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-              <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-              <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-              <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-12 bg-gradient-to-r from-orange-200 to-amber-200 rounded-xl animate-pulse"></div>
+              <div className="h-12 bg-gradient-to-r from-orange-200 to-amber-200 rounded-xl animate-pulse"></div>
+              <div className="h-12 bg-gradient-to-r from-orange-200 to-amber-200 rounded-xl animate-pulse"></div>
+              <div className="h-12 bg-gradient-to-r from-orange-200 to-amber-200 rounded-xl animate-pulse"></div>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <Card key={i} className="animate-pulse">
-                <CardContent className="p-4">
-                  <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
-                  <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-3"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                  <div className="flex justify-between items-center">
-                    <div className="h-8 bg-gray-200 rounded w-20"></div>
-                    <div className="h-8 bg-gray-200 rounded w-8"></div>
+          
+          {/* Products Grid Loading */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-orange-100 animate-pulse">
+                <div className="aspect-square bg-gradient-to-br from-orange-200 to-amber-200"></div>
+                <div className="p-6">
+                  <div className="space-y-3">
+                    <div className="h-6 bg-gradient-to-r from-orange-200 to-amber-200 rounded-xl w-3/4"></div>
+                    <div className="h-4 bg-gradient-to-r from-orange-100 to-amber-100 rounded-xl w-full"></div>
+                    <div className="h-4 bg-gradient-to-r from-orange-100 to-amber-100 rounded-xl w-5/6"></div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="flex justify-between items-center mt-6">
+                    <div className="h-8 bg-gradient-to-r from-orange-300 to-amber-300 rounded-xl w-24"></div>
+                    <div className="h-10 bg-gradient-to-r from-orange-200 to-amber-200 rounded-xl w-10"></div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -159,17 +164,44 @@ export default function ProductsPage() {
     <Suspense fallback={<ProductsLoading />}>
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-600 to-orange-400 text-white shadow-sm border-b">
-          <div className="max-w-7xl mx-auto px-4 py-12 text-center">
-            <h1 
-              className="text-5xl md:text-6xl font-bold mb-4"
-              style={{ fontFamily: 'Lovelo, sans-serif' }}
-            >
-              Our Products
-            </h1>
-            <p className="text-lg md:text-xl text-white/90">Discover our range of delicious millet-based snacks</p>
+        <section className="relative min-h-[50vh] bg-gradient-to-br from-orange-400 via-orange-300 to-amber-200 overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-10 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+            <div className="absolute top-32 right-10 w-72 h-72 bg-amber-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-8 left-32 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
           </div>
-        </div>
+          
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-grid-white/20"></div>
+          
+          <div className="relative z-10 flex items-center justify-center min-h-[50vh] px-4">
+            <div className="text-center max-w-4xl">
+              {/* Animated Icon */}
+              <div className="flex items-center justify-center mb-8 group">
+                <div className="w-20 h-20 bg-gradient-to-br from-white to-orange-100 rounded-3xl flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-all duration-300">
+                  <ShoppingCart className="w-10 h-10 text-orange-600 group-hover:rotate-12 transition-transform duration-300" />
+                </div>
+              </div>
+              
+              {/* Main Heading with Gradient */}
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-white via-orange-50 to-orange-100 bg-clip-text text-transparent drop-shadow-lg">
+                  Our
+                </span>
+                <br />
+                <span className="bg-gradient-to-r from-orange-600 to-amber-700 bg-clip-text text-transparent">
+                  Products
+                </span>
+              </h1>
+              
+              {/* Subtitle with animation */}
+              <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in">
+                Discover our range of premium flavoured cashews, mixed dry fruits, and innovative snacks
+              </p>
+            </div>
+          </div>
+        </section>
 
         <div className="max-w-7xl mx-auto px-4 py-8">
           {/* Filters and Search */}

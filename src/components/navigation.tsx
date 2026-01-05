@@ -41,12 +41,7 @@ export default function Navigation() {
             >
               Products
             </Link>
-            <Link 
-              href="/recipes" 
-              className="text-gray-700 hover:text-orange-600 transition-colors font-medium"
-            >
-              Recipes
-            </Link>
+
             <Link 
               href="/about" 
               className="text-gray-700 hover:text-orange-600 transition-colors font-medium"
@@ -104,13 +99,7 @@ export default function Navigation() {
               >
                 Products
               </Link>
-              <Link 
-                href="/recipes" 
-                className="block py-2 text-gray-700 hover:text-orange-600 transition-colors font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Recipes
-              </Link>
+
               <Link 
                 href="/about" 
                 className="block py-2 text-gray-700 hover:text-orange-600 transition-colors font-medium"
