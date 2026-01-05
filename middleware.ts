@@ -9,8 +9,8 @@ export function middleware(request: NextRequest) {
 
 // Define user and admin paths
   const userProtectedPaths = ['/profile', '/orders', '/api/payment-verification', '/api/upload-image']
-  const adminProtectedPaths = ['/admin', '/api/admin']
-  const adminExcludedPaths = ['/api/admin/login', '/admin/login']
+  const adminProtectedPaths = ['/api/admin']  // Remove /admin page, let client handle it
+  const adminExcludedPaths = ['/api/admin/login']
 
   // Check if the current path is a user protected path
   const isUserProtectedPath = userProtectedPaths.some(path => pathname.startsWith(path))
