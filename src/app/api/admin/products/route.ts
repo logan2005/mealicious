@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         description,
-        price: parseFloat(price),
+        price: typeof price === 'number' ? price : parseFloat(price),
         category,
         imageUrl,
         images: images || [],
