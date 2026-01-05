@@ -131,7 +131,30 @@ export default function AdminDashboard() {
     }
   }
 
+  const handleClearDatabase = async () => {
+    if (window.confirm('⚠️ WARNING: This will delete ALL products, combos, orders, and users except the admin. This action cannot be undone. Continue?')) {
+      try {
+        const adminToken = localStorage.getItem('adminToken')
+        const response = await fetch('/api/admin/clear-db', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        })
 
+        if (response.ok) {
+          const data = await response.json()
+          alert(`✅ Database cleared successfully!\n\nProducts: ${data.stats.products}\nCombos: ${data.stats.combos}\nUsers: ${data.stats.users}`)
+          fetchDashboardData() // Re-fetch stats to reflect cleared database
+          setProducts([]) // Clear products from display
+        } else {
+          const data = await response.json()
+          alert(`Failed to clear database: ${data.error || 'Unknown error'}`)
+        }
+      } catch (error) {
+        console.error('Error clearing database:', error)
+        alert('An error occurred while clearing the database.')
+      }
+    }
+  }
 
   if (loading) {
     return (
@@ -276,12 +299,21 @@ export default function AdminDashboard() {
                 <h2 className="text-2xl font-bold">Products Management</h2>
                 <p className="text-gray-600">Manage your product catalog</p>
               </div>
-              <Link href="/admin/products/new">
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Product
+              <div className="flex gap-2">
+                <Link href="/admin/products/new">
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Product
+                  </Button>
+                </Link>
+                <Button 
+                  variant="destructive" 
+                  onClick={handleClearDatabase}
+                  disabled={loading}
+                >
+                  Clear Database
                 </Button>
-              </Link>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

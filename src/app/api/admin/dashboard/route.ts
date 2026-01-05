@@ -12,12 +12,12 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get dashboard statistics
+// Get dashboard statistics
     const [
       totalProducts,
       totalCustomers,
       totalOrders,
-      totalRecipes,
+      totalCombos,
       recentOrders,
       lowStockProducts
     ] = await Promise.all([
@@ -30,8 +30,8 @@ export async function GET(request: NextRequest) {
       // Total orders
       db.order.count(),
       
-      // Total recipes
-      db.recipe.count(),
+      // Total combos
+      db.combo.count(),
       
       // Recent orders (last 10)
       db.order.findMany({
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       totalProducts,
-      totalRecipes,
+      totalCombos,
       totalOrders,
       totalUsers: totalCustomers,
       recentOrders,
