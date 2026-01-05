@@ -10,6 +10,7 @@ export function middleware(request: NextRequest) {
 // Define user and admin paths
   const userProtectedPaths = ['/profile', '/orders', '/api/payment-verification', '/api/upload-image']
   const adminProtectedPaths = ['/admin', '/api/admin']
+  const adminExcludedPaths = ['/api/admin/login', '/admin/login']
 
   // Check if the current path is a user protected path
   const isUserProtectedPath = userProtectedPaths.some(path => pathname.startsWith(path))
@@ -17,7 +18,10 @@ export function middleware(request: NextRequest) {
   // Check if the current path is an admin protected path
   const isAdminProtectedPath = adminProtectedPaths.some(path => pathname.startsWith(path))
 
-  // Handle user protected paths
+  // Check if the current path is an admin excluded path (login should not be protected)
+  const isAdminExcludedPath = adminExcludedPaths.some(path => pathname.startsWith(path))
+
+// Handle user protected paths
   if (isUserProtectedPath) {
     if (!token) {
       return NextResponse.redirect(new URL('/login', request.url))
@@ -33,8 +37,8 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Handle admin protected paths
-  if (isAdminProtectedPath) {
+  // Handle admin protected paths (excluding login routes)
+  if (isAdminProtectedPath && !isAdminExcludedPath) {
     if (!token) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
