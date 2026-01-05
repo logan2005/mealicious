@@ -7,8 +7,8 @@ export function middleware(request: NextRequest) {
   const token = request.headers.get('authorization')?.replace('Bearer ', '')
   const { pathname } = request.nextUrl
 
-  // Define user and admin paths
-  const userProtectedPaths = ['/profile', '/orders', '/api/payment-verification', '/api/products', '/api/upload-image']
+// Define user and admin paths
+  const userProtectedPaths = ['/profile', '/orders', '/api/payment-verification', '/api/upload-image']
   const adminProtectedPaths = ['/admin', '/api/admin']
 
   // Check if the current path is a user protected path
